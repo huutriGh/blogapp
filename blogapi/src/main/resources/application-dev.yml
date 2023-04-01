@@ -1,0 +1,5 @@
+security:
+  cors:
+    origin: http://localhost:3000
+jpa:
+  pageSize: 9
