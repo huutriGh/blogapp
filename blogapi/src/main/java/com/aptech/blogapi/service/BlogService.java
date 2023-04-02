@@ -8,5 +8,7 @@ public interface BlogService {
 
     public Page<Blog> getPage(int pageNo, int pageSize);
     public void delete(Blog blog);
+    public void updateOrAdd(Blog blog);
+   
 
 }

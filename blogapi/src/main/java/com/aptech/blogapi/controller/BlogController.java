@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,9 @@ import com.aptech.blogapi.model.Blog;
 import com.aptech.blogapi.service.BlogService;
 
 @RestController
-@CrossOrigin("${security.cors.origin}")
+// @CrossOrigin(origins = "${security.cors.origin}", methods = {
+// RequestMethod.DELETE, RequestMethod.GET,
+// RequestMethod.POST, RequestMethod.PUT })
 public class BlogController {
 
     @Autowired
@@ -30,11 +31,24 @@ public class BlogController {
 
     }
 
-    @PostMapping(path = "/blog", consumes = { org.springframework.http.MediaType.APPLICATION_JSON_VALUE })
+    @DeleteMapping(path = "/blog", consumes = {
+            org.springframework.http.MediaType.APPLICATION_JSON_VALUE }, produces = {
+                    org.springframework.http.MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<String> deleteBlog(@RequestBody Blog blog) {
 
         blogService.delete(blog);
         return new ResponseEntity<String>("Delete blog success", HttpStatus.OK);
+
+    }
+
+    @PostMapping(path = "/blog", consumes = { org.springframework.http.MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<String> updateOrAddBlog(@RequestBody Blog blog) {
+
+        if (blog.getUrl().isEmpty()) {
+            blog.setUrl("http:localhost:8080/blog/" + blog.getBlogId());
+        }
+        blogService.updateOrAdd(blog);
+        return new ResponseEntity<String>("Update blog success", HttpStatus.OK);
 
     }
 
