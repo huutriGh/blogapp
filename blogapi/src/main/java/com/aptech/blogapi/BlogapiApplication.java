@@ -20,7 +20,7 @@ public class BlogapiApplication {
 		BlogRepository blogRepositoy = context.getBean(BlogRepository.class);
 
 		Random random = new Random();
-		for (int i = 1; i <= 1000; i++) {
+		for (int i = 1; i <= 100; i++) {
 
 			Blog blog = new Blog();
 			blog.setBlogId((i))
